@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AICommHub - Made by Tristepin</title>
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            min-height: 100vh;
+        }
+        .card {
+            background: rgba(33, 37, 41, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: transform 0.2s ease;
+        }
+        .feature-list li:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, #007bff, #00bcd4);
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+        }
+        .card-title {
+            background: linear-gradient(45deg, #00bcd4, #007bff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body p-5">
+                        <h2 class="card-title text-center display-4 mb-4">AICommHub</h2>
+                        <div class="mb-5">
+                            <h4 class="text-light mb-4">Un Bot Telegram Multifonctionnel</h4>
+                            <p class="lead text-light mb-4">Votre assistant de communication intelligent qui combine :</p>
+                            <ul class="feature-list">
+                                <li class="d-flex align-items-center">
+                                    <span class="fs-4 me-3">🤖</span>
+                                    <div>
+                                        <h5 class="mb-1">Intelligence Artificielle</h5>
+                                        <p class="mb-0 text-muted">Conversations naturelles via OpenAI</p>
+                                    </div>
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <span class="fs-4 me-3">📱</span>
+                                    <div>
+                                        <h5 class="mb-1">SMS</h5>
+                                        <p class="mb-0 text-muted">Envoi de messages avec Twilio</p>
+                                    </div>
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <span class="fs-4 me-3">📧</span>
+                                    <div>
+                                        <h5 class="mb-1">Email</h5>
+                                        <p class="mb-0 text-muted">Communication via SendGrid</p>
+                                    </div>
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <span class="fs-4 me-3">🔐</span>
+                                    <div>
+                                        <h5 class="mb-1">Sécurité</h5>
+                                        <p class="mb-0 text-muted">Authentification avec Firebase</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <button id="loginBtn" class="btn btn-primary btn-lg w-100 d-flex align-items-center justify-content-center">
+                            <span class="me-2">🔐</span>
+                            Se connecter avec Google
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js'
+        import { getAuth, signInWithRedirect, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js'
+
+        const firebaseConfig = {
+            apiKey: "{{ firebase_api_key }}",
+            authDomain: "{{ firebase_project_id }}.firebaseapp.com",
+            projectId: "{{ firebase_project_id }}",
+            appId: "{{ firebase_app_id }}"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        document.getElementById('loginBtn').addEventListener('click', () => {
+            const provider = new GoogleAuthProvider();
+            signInWithRedirect(auth, provider);
+        });
+    </script>
+    <footer class="text-center mt-4 text-muted">
+        <small>Made by Tristepin &copy; 2024</small>
+    </footer>
+</body>
+</html>

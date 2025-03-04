@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AICommHub - Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js">
+    <style>
+        .card {
+            transition: transform 0.2s ease-in-out;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .list-group-item {
+            transition: background-color 0.2s ease;
+        }
+        .list-group-item:hover {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05));
+            pointer-events: none;
+        }
+        .btn-outline-danger {
+            transition: all 0.3s ease;
+        }
+        .btn-outline-danger:hover {
+            transform: scale(1.05);
+        }
+        .navbar {
+            backdrop-filter: blur(10px);
+            background: rgba(33, 37, 41, 0.95) !important;
+        }
+        .card-title {
+            color: var(--bs-info);
+            font-weight: 600;
+        }
+        .service-status {
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .service-status.active {
+            background: rgba(25, 135, 84, 0.1);
+            border: 1px solid rgba(25, 135, 84, 0.2);
+        }
+        .service-status.inactive {
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid rgba(220, 53, 69, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <span class="me-2">🤖</span>
+                <span>AICommHub Dashboard</span>
+            </a>
+            <button id="logoutBtn" class="btn btn-outline-danger">
+                <span class="me-2">🚪</span>Déconnexion
+            </button>
+        </div>
+    </nav>
+
+    <div class="container mt-5 pt-4">
+        <!-- Services Status Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">
+                            <span class="me-2">🔌</span>État des Services
+                        </h4>
+                        <div id="servicesStatus">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature Guide Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">
+                            <span class="me-2">📚</span>Guide des Commandes
+                        </h4>
+                        <div class="list-group">
+                            <div class="list-group-item bg-dark text-light border-secondary">
+                                <h5 class="mb-1">🚀 /start</h5>
+                                <p class="mb-1">Démarrer le bot et recevoir le message d'accueil</p>
+                            </div>
+                            <div class="list-group-item bg-dark text-light border-secondary">
+                                <h5 class="mb-1">🔐 /auth</h5>
+                                <p class="mb-1">S'authentifier pour utiliser les fonctionnalités du bot</p>
+                            </div>
+                            <div class="list-group-item bg-dark text-light border-secondary">
+                                <h5 class="mb-1">📱 /sms [numéro] [message]</h5>
+                                <p class="mb-1">Envoyer un SMS au numéro spécifié</p>
+                                <small class="text-info">Exemple: /sms +33612345678 Bonjour!</small>
+                            </div>
+                            <div class="list-group-item bg-dark text-light border-secondary">
+                                <h5 class="mb-1">📧 /email [destinataire] [sujet] [message]</h5>
+                                <p class="mb-1">Envoyer un email avec le sujet et le message spécifiés</p>
+                                <small class="text-info">Exemple: /email user@example.com "Mon sujet" Mon message</small>
+                            </div>
+                            <div class="list-group-item bg-dark text-light border-secondary">
+                                <h5 class="mb-1">💡 Messages normaux</h5>
+                                <p class="mb-1">Envoyez n'importe quel message pour recevoir une réponse intelligente générée par l'IA</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">
+                            <span class="me-2">🔔</span>Notifications
+                            <span id="notificationCount" class="badge bg-danger">0</span>
+                        </h4>
+                        <div id="notificationsList" class="list-group">
+                            <!-- Sera rempli par JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Message History Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">
+                            <span class="me-2">📜</span>Historique des Messages
+                        </h4>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Message</th>
+                                        <th>Statut</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="messageHistory">
+                                    <!-- Sera rempli par JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Stats Section -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card shadow stat-card mb-4">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Messages Traités</h5>
+                        <h2 id="messagesCount" class="display-4 text-info">0</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow stat-card mb-4">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Utilisateurs Actifs</h5>
+                        <h2 id="usersCount" class="display-4 text-success">0</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow stat-card mb-4">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Erreurs</h5>
+                        <h2 id="errorsCount" class="display-4 text-danger">0</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <span class="me-2">📊</span>Graphique d'Activité
+                        </h5>
+                        <canvas id="activityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/static/js/dashboard.js"></script>
+</body>
+</html>
