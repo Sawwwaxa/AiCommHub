@@ -58,7 +58,7 @@ Envoyez n'importe quel message au bot pour recevoir une réponse générée par 
 
 1. Clonez le repository :
 ```bash
-git clone https://github.com/votre-username/aicommhub.git
+git clone https://github.com/Sawwwaxa/aicommhub.git
 cd aicommhub
 ```
 
