@@ -1,6 +1,6 @@
 # AICommHub - Telegram Bot with Multiple Integrations
 
-*Made by Tristepin*
+*Made by Sawwax*
 
 AICommHub est un bot Telegram multifonctionnel conçu pour offrir une expérience de communication intelligente et flexible.
 
